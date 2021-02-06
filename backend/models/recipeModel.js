@@ -6,6 +6,11 @@ const recipeSchema = mongoose.Schema({
 
 
 
+    user: { 
+        type: String,
+        required: true
+    
+    },
 
 name: { 
     type: String,
@@ -44,14 +49,8 @@ ingredients: {
 
 } ,
 
-directions: { 
-    step1: { type: String },
-    step2: { type: String },
-    step3: { type: String },
-    step4: { type: String },
+directions: [ ]
 
-
-},
 
 })
 

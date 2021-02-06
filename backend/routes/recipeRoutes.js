@@ -1,10 +1,15 @@
 import express from 'express'
 const router = express.Router()
-import {createRecipe,getRecipes} from '../controllers/recipeController.js'
+import {createRecipe,getRecipes , updateRecipe , deleteRecipe} from '../controllers/recipeController.js'
 
 
-router.route('/postRecipe')
+router.route('/r')
 .post(createRecipe)
 .get(getRecipes)
+
+
+router.route('/:id')
+.delete(deleteRecipe)
+.put(updateRecipe)
 
 export default router
