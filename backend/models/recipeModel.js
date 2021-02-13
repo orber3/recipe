@@ -1,60 +1,57 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
 // ddddd
 
 const recipeSchema = mongoose.Schema({
-
-
-
-    user: { 
-        type: String,
-        required: true
-    
-    },
-
-name: { 
+  user: {
     type: String,
-    required: true
+    required: false,
+  },
 
-},
-
-cookingTime: { 
-    type: Number,
-
-},
-
-catagory: { 
-    type: String,
-} ,
-
-description: { 
+  name: {
     type: String,
     required: true,
-} ,
+  },
 
-rating: { 
+  cookingTime: {
     type: Number,
-    default: 0
-} ,
+  },
 
-numReviews: { 
-    type: Number,
-    default: 0
+  catagory: {
+    type: String,
+  },
 
-} ,
-
-ingredients: { 
+  description: {
     type: String,
     required: true,
+  },
 
-} ,
+  rating: {
+    type: Number,
+    default: 0,
+  },
 
-directions: [ ]
+  numReviews: {
+    type: Number,
+    default: 0,
+  },
+  date: {
+      type: String ,
+      required: true,
+  },
 
+  ingredients: {
+    type: String,
+    required: true,
+  },
+  image: { 
+      type: String,
+      required: true,
+  },
 
-})
+  directions: [],
+});
 
+const Recipe = mongoose.model("Recipe", recipeSchema);
 
-const Recipe  = mongoose.model('Recipe' , recipeSchema)
-
-export default Recipe
+export default Recipe;

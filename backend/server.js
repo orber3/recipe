@@ -2,7 +2,10 @@ import express from 'express'
 import dotenv from 'dotenv'
 import connectDB from './config/db.js'
 import recipeRoutes from './routes/recipeRoutes.js'
+import uploadRoute from './routes/uploadRoute.js'
 import morgan from 'morgan'
+import path from 'path'
+import fs from 'fs'
 
 //env config
 dotenv.config()
@@ -11,6 +14,9 @@ const PORT = process.env.PORT || 5000
 const app = express()
 //connects to DB
 connectDB()
+
+
+
 
 
 app.listen(PORT,  console.log(  `${process.env.NODE_ENV} mode and port ${process.env.PORT}`))
@@ -24,3 +30,9 @@ if(process.env.NODE_ENV === 'development') {
 //routes
 
     app.use('/api/recipe', recipeRoutes)
+    app.use('/api/uploads', uploadRoute)
+
+    //upload route
+    const __dirname = path.resolve()
+
+    app.use('/api/uploads', express.static(path.join(__dirname , '/uploads')))
