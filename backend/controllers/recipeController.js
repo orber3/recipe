@@ -51,12 +51,13 @@ const getRecipes = asyncHandler(async (req, res) => {
 const updateRecipe = asyncHandler(async (req, res) => {
   const recipe = await Recipe.findById(req.params.id);
 
-  if (recipe) {
+  if (recipe && recipe.user[0].email == req.body.user.email) {
     recipe.name = req.body.name || recipe.name;
     recipe.cookingTime = req.body.cookingTime || recipe.cookingTime;
     recipe.catagory = req.body.catagory || recipe.catagory;
     recipe.ingredients = req.body.ingredients || recipe.ingredients;
     recipe.directions = req.body.directions || recipe.directions;
+    recipe.image = req.body.image || recipe.image;
 
     const updatedRecipe = await recipe.save();
 
@@ -70,7 +71,7 @@ const updateRecipe = asyncHandler(async (req, res) => {
 // DELETE RECIPE
 const deleteRecipe = asyncHandler(async (req, res) => {
   const recipe = await Recipe.findById(req.params.id);
-  if (recipe) {
+  if  (recipe && recipe.user[0].email == req.body.user.email) {
     await recipe.remove();
     res.json({ message: "recipe removed" });
   } else {
@@ -79,4 +80,52 @@ const deleteRecipe = asyncHandler(async (req, res) => {
   }
 });
 
-export { createRecipe, getRecipes, updateRecipe, deleteRecipe };
+
+
+
+//  get logged in user recipes
+
+
+const getMyRecipes =asyncHandler(async (req,res) =>  {
+//   console.log(req.query._id)
+const user = req.query.user
+// console.log(user)
+
+   const recipes = await Recipe.find( { 'user.0.email': user} )
+
+   console.log(recipes)
+    if(recipes ) { 
+        res.json(recipes)
+
+    }
+    else  {
+        res.status(404);
+        throw new Error("recipe not found");
+    }
+        })
+
+
+//get recipe by id
+        const getRecipeById =asyncHandler(async (req,res) =>  {
+          const recipe= await Recipe.findById(req.params.id)
+              if(!recipe) { 
+                  res.status(404).json({message: "not found "})
+              }
+              res.json(recipe)
+  
+      
+  })
+  
+
+
+
+
+
+
+
+
+
+export { createRecipe, getRecipes, updateRecipe, deleteRecipe ,getMyRecipes, getRecipeById};
+
+
+
