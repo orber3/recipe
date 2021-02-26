@@ -3,9 +3,11 @@ import dotenv from 'dotenv'
 import connectDB from './config/db.js'
 import recipeRoutes from './routes/recipeRoutes.js'
 import uploadRoute from './routes/uploadRoute.js'
+import userRoute from './routes/userRoute.js'
 import morgan from 'morgan'
 import path from 'path'
-import fs from 'fs'
+import bodyParser from 'body-parser'
+
 
 //env config
 dotenv.config()
@@ -16,6 +18,7 @@ const app = express()
 connectDB()
 
 
+app.use(bodyParser.json());
 
 
 
@@ -36,3 +39,8 @@ if(process.env.NODE_ENV === 'development') {
     const __dirname = path.resolve()
 
     app.use('/api/uploads', express.static(path.join(__dirname , '/uploads')))
+
+
+    // auth user routes
+
+    app.use('/api/users', userRoute)

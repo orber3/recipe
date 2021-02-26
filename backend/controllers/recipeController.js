@@ -1,5 +1,6 @@
 import Recipe from "../models/recipeModel.js";
 import asyncHandler from "express-async-handler";
+import bodyParser from 'body-parser'
 
 const createRecipe = asyncHandler(async (req, res) => {
   const {
@@ -9,11 +10,12 @@ const createRecipe = asyncHandler(async (req, res) => {
     description,
     ingredients,
     directions,
-    user,
+   
     date,
     image,
   } = req.body;
-
+  
+const user = req.body.userId
   const recipe = new Recipe({
     name,
     cookingTime,
@@ -89,19 +91,21 @@ const deleteRecipe = asyncHandler(async (req, res) => {
 const getMyRecipes =asyncHandler(async (req,res) =>  {
 //   console.log(req.query._id)
 const user = req.query.user
-// console.log(user)
+console.log(user)
+if(user) { 
 
    const recipes = await Recipe.find( { 'user.0.email': user} )
-
-   console.log(recipes)
-    if(recipes ) { 
-        res.json(recipes)
-
+  
+    if(recipes.length < 1) { 
+      res.status(404);
+      throw new Error("recipe not found");
+    
     }
+  
     else  {
-        res.status(404);
-        throw new Error("recipe not found");
-    }
+      console.log(recipes)
+      res.json(recipes)
+    } }
         })
 
 
