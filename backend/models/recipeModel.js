@@ -1,32 +1,43 @@
 import mongoose from "mongoose";
 
-// ddddd
+
+
+const reviewSchema = mongoose.Schema( { 
+  name:{ type: String, required: true},
+  rating:{ type: Number, required: true},
+  comment:{ type: String, required: true},
+  
+  user: { 
+      type: mongoose.Schema.Types.ObjectId , 
+      required: true,
+      ref: 'User'
+  
+  } , 
+  },
+  { 
+      timestamps: true,
+  
+  })
+
+
+
 
 const recipeSchema = mongoose.Schema({
 
 
   
-//   user: { 
-//     type: mongoose.Schema.Types.ObjectId , 
-//     required: true,
-//     ref: 'User'
-// },
 
   name: {
     type: String,
     required: true,
   },
-  user: 
-   {
-     type: Array , 
-     required: true,
-  // googleId: {type: String , required: true },
-  // imageUrl: {type: String , required: true },
-  // email: {type: String , required: true },
-  // name: {type: String , required: true },
-  // givenName: {type: String , required: true },
-  // familyName: {type: String , required: true },
-   },
+ 
+user: { 
+  type: mongoose.Schema.Types.ObjectId,
+  required: true,
+  ref: 'User',
+},
+  
 
   cookingTime: {
     type: Number,
@@ -40,6 +51,10 @@ const recipeSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+
+
+  reviews:[reviewSchema],
+
 
   rating: {
     type: Number,

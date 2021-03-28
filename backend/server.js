@@ -7,6 +7,7 @@ import userRoute from './routes/userRoute.js'
 import morgan from 'morgan'
 import path from 'path'
 import bodyParser from 'body-parser'
+import {notFound, errorHandler} from './middleware/error.js'
 
 
 //env config
@@ -41,6 +42,14 @@ if(process.env.NODE_ENV === 'development') {
     app.use('/api/uploads', express.static(path.join(__dirname , '/uploads')))
 
 
-    // auth user routes
+    //  user routes
 
     app.use('/api/users', userRoute)
+
+ 
+//error handlers
+
+    app.use(notFound)
+     app.use(errorHandler)
+    
+    

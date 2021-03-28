@@ -1,18 +1,25 @@
 import express from 'express'
 const router = express.Router()
-import {createRecipe,getRecipes , updateRecipe , deleteRecipe,getMyRecipes, getRecipeById} from '../controllers/recipeController.js'
+import {createRecipe,getRecipes , updateRecipe , deleteRecipe,getMyRecipes, getRecipeById, createRecipeReview} from '../controllers/recipeController.js'
+import {protect, admin} from '../middleware/auth.js'
 
 
 router.route('/r')
-.post(createRecipe)
+.post(protect, createRecipe)
 .get(getRecipes)
 
-router.route('/my').get(getMyRecipes)
+router.route('/my').get( protect, getMyRecipes)
+
+
+//reviews
+router.route('/review/:id')
+.post(protect,createRecipeReview)
+
 
 router.route('/:id')
 .get(getRecipeById)
-.delete(deleteRecipe)
-.put(updateRecipe)
+.delete(protect, deleteRecipe)
+.put(protect,updateRecipe)
 
 
 
