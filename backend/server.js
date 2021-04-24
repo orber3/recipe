@@ -9,6 +9,12 @@ import path from 'path'
 import bodyParser from 'body-parser'
 import {notFound, errorHandler} from './middleware/error.js'
 
+import cors from 'cors'
+
+
+
+
+
 
 //env config
 dotenv.config()
@@ -21,7 +27,14 @@ connectDB()
 
 app.use(bodyParser.json());
 
+//cors handle
+app.use(cors())
 
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+//   });
 
 app.listen(PORT,  console.log(  `${process.env.NODE_ENV} mode and port ${process.env.PORT}`))
 
